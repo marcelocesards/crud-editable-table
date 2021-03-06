@@ -1,0 +1,55 @@
+<div class="bs">
+    <p-table #dt tableStyleClass="bs" [value]="rows" [scrollable]="true" [responsive]="true" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true" currentPageReportTemplate="Exibindo {first} até {last} de {totalRecords} de registros"
+        styleClass="p-datatable-striped " [dataKey]="idEdit" editMode="row" [globalFilterFields]="filters">
+        <ng-template pTemplate="caption">
+            <div class="p-d-flex">
+                <div>
+                    <!--  <button mat-raised-button class="p-6px" matTooltip="Limpar todos os filtros da tabela" id="btnclear" label="Limpar" icon="pi pi-filter-slash" (click)="clear(dt)"><i class="pi pi-filter-slash"></i></button>-->
+                    <app-btn [classes]="['ml-2', 'active', 'btn-success', 'text-light']" matTooltip="Adicionar Nova linha na tabela" [tipo]="'adicionar'" (clickEvent)="adicionar()"></app-btn>
+                </div>
+                <span class="p-input-icon-left p-ml-auto">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" style="height: 5px;" [(ngModel)]="filterValue" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Filtrar" />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="colgroup" let-columns>
+            <colgroup>
+                <col [style]="'width:'+col.tamanho" *ngFor="let col of cols">
+            </colgroup>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th class="{{col.headerClasses}}" *ngFor="let col of cols">
+                    {{col.header}}
+                </th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-row let-editing="editing" let-ri="rowIndex">
+            <tr [pEditableRow]="row">
+                <td class="{{col.classes}} {{row.classes}}" *ngFor="let col of cols">
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <app-select *ngIf="col.type==='select'" [objs]="col.data" [label]="col.label" [selectedString]="row[col.field]" (selectEvent)="selectEvent($event, row, col)"></app-select>
+                            <input *ngIf="col.type!='select'" #inputField [ngClass]="{'wp-100':true}" [type]="col.type||'text'" [(ngModel)]="row[col.field]">
+                        </ng-template>
+                        <ng-template *ngIf="col.type==='select'" pTemplate="output">
+                            {{getDescription(col.data,row[col.field])}}
+                        </ng-template>
+                        <ng-template *ngIf="col.type!='select'" #stringField pTemplate="output">
+                            {{row[col.field]}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td style="text-align:center">
+                    <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditInit(row)" class="p-button-rounded p-button-text"></button>
+                    <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(row)" class="p-button-rounded p-button-text p-button-success p-mr-2"></button>
+                    <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(row, ri)" class="p-button-rounded p-button-text p-button-danger"></button>
+                    <button [disabled]="row.isNew" *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-trash" (click)="onRowEditRemove(row, ri)" class="p-button-rounded p-button-text p-button-danger"></button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+<app-confirm-dialog (itemEvent)="onDialogOk($event)"></app-confirm-dialog>

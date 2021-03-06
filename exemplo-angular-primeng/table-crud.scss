@@ -1,0 +1,47 @@
+/*th {
+    background-color: white;
+    text-align: center;
+}*/
+
+td,
+th {
+    text-align: center;
+    padding: 5px !important;
+}
+
+:host ::ng-deep .p-paginator {
+    padding: 4.8px !important;
+}
+
+.bs {
+    box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+:host .bgc-pastel {
+    background-color: #F5E6AF;
+}
+
+:host .bgc-pastel-light {
+    background-color: #F5EFD3;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.wp-100 {
+    width: 100%;
+}
+
+:host ::ng-deep .p-cell-editing {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+:host ::ng-deep .h-5px {
+    height: 1.5rem;
+}
+
+:host ::ng-deep .p-6px {
+    padding: 6px 12px;
+}

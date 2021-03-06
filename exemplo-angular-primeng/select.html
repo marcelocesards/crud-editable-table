@@ -1,0 +1,6 @@
+<mat-form-field class="{{classes}}">
+    <mat-label>{{label}}</mat-label>
+    <mat-select matNativeControl [(value)]="selectedObj" (selectionChange)="returnValue()">
+        <mat-option *ngFor="let obj of objs" [value]="obj">{{obj.option?obj.option:obj}}</mat-option>
+    </mat-select>
+</mat-form-field>
